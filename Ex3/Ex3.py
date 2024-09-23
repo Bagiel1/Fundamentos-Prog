@@ -3,30 +3,32 @@ import matplotlib.pyplot as plt
 import random
 import time
 
+#Exercício 3,4 e 5 aqui
+
 plt.figure(figsize=(24,16))
 plt.subplot(1,2,1)
 
-P= 10
-N=50
-a=[]
+P= 10 #Determina quantos a's serão aleatorizados
+N= 50 #Determina quantos x's vão ser atribuídos
+a=[] 
 resultados= []
-for _ in range(P):
+for _ in range(P): #Cria "a's" aleatórios entre 0 e 4
   a.append(random.uniform(0,4))
 print("Numeros a")
-a=sorted(a)
-print(a)
+a=sorted(a) #Coloca os a's em ordem crescente
 
 
 for _ in range(P):
   x=0.1
-  temp_result= []
+  temp_result= [] #Cria uma lista temporária que vai ser transporatada para os resultados
   for i in range(N):
-    x= a[_]*x*(1-x)
+    x= a[_]*x*(1-x) #Para um 'a' específico, terá a sequência logística, depois trocará o 'a'
     temp_result.append(x)
   resultados.append(temp_result)
-  plt.plot(temp_result, label= f'{a[_]:.2f}', marker='o')
+  plt.plot(temp_result, label= f'{a[_]:.2f}', marker='o') 
 print(resultados)
-
+plt.show()
+'''
 
 
 for _ in range(len(resultados)):
@@ -78,3 +80,4 @@ result= np.array(result)
 plt.plot(result[:,0],result[:,1], ',k')
 plt.tight_layout()
 plt.show()
+'''
