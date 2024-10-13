@@ -12,7 +12,7 @@ def monte_carlo(N,pnts_por_frame):
     fig, (axis,axis2)= plt.subplots(2,1, figsize=(16,8))
 
     axis.set_xlim(-1, 1)
-    axis.set_ylim(-1, 1)
+    axis.set_ylim(-1, 1)    
     axis2.set_ylim(-1, 3.5)
     axis2.axhline(y=np.pi, color='g', linestyle='--', label='π (3.14)')
     axis2.axhline(y=0, color='g', linestyle='--', label='0')
