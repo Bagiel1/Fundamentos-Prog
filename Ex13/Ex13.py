@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import random
+import time
 
 
 
@@ -13,6 +14,7 @@ def montCarl3d(n):
     pontos_foraz=[]
     total=0
     num=0
+    start= time.time()
     for i in range(n):
         x= random.uniform(-1,1)
         y= random.uniform(-1,1)
@@ -30,6 +32,8 @@ def montCarl3d(n):
             pontos_foraz.append(z)
 
     pi_estimado= 6*(num/total)
+    end= time.time() - start
+    print(f"Tempo normal= {end}")
 
     fig= plt.figure(figsize=(12,8))
     ax= fig.add_subplot(111,projection='3d')
@@ -42,10 +46,13 @@ def montCarl3d(n):
 
 def montCarl3d_vet(n):
 
+    start= time.time()
     pontos= np.random.uniform(-1,1, (n,3))
     distancia= np.sum(pontos**2, axis=1)
     num= np.sum(distancia<=1)
     pi_estimado= 6*(num/n)
+    end= time.time() - start
+    print(f"Tempo Vetorizado= {end}")
 
     pontosdentro= pontos[distancia<=1]
     pontosfora= pontos[distancia>1]
@@ -58,9 +65,6 @@ def montCarl3d_vet(n):
 
     return pi_estimado
 
-pi= montCarl3d_vet(10000000)
-print(pi)
 
-
-
-
+print(montCarl3d(100000))
+print(montCarl3d_vet(100000))

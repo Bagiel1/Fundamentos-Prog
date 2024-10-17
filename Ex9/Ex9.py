@@ -2,8 +2,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 import random
 from matplotlib.animation import FuncAnimation
+from numba import jit
 
-def monte_carlo(N,pnts_por_frame):
+def monte_carloAni(N,pnts_por_frame):
     pontos_dentroX=[]
     pontos_foraX=[]
     pontos_dentroY=[]
@@ -69,4 +70,42 @@ def monte_carlo(N,pnts_por_frame):
     return 4 * (num / total)
 
 
-print(monte_carlo(1000000,10000))
+
+
+def monte_carloSemAni():
+    num=0
+    pis= []
+    a= [10**3,10**4,10**5,10**6,10**7]
+    for j in a:
+        total=j
+        for l in range(4):
+            num=0
+            for i in range(j):
+                x= random.uniform(-1,1)
+                y= random.uniform(-1,1)
+                if x**2 + y**2 <= 1:
+                    num+=1
+            pi_estimado= 4 * (num/total)
+            pis.append(float(pi_estimado))
+    
+    medias_por_n = [(sum(pis[i:i+4])/4) for i in range(0,len(pis),4)] 
+    print(medias_por_n) 
+    difmedias = [abs(np.pi - media) for media in medias_por_n]
+
+    print(f"# | {'N=10^3':>8} | {'N=10^4':>8} | {'N=10^5':>8} | {'N=10^6':>8} | {'N=10^7':>8}")
+    print(f"1 | {pis[0]:>8.5f} | {pis[4]:>8.5f} | {pis[8]:>8.5f} | {pis[12]:>8.5f} | {pis[16]:>8.5f}")
+    print(f"2 | {pis[1]:>8.5f} | {pis[5]:>8.5f} | {pis[9]:>8.5f} | {pis[13]:>8.5f} | {pis[17]:>8.5f}")
+    print(f"3 | {pis[2]:>8.5f} | {pis[6]:>8.5f} | {pis[10]:>8.5f} | {pis[14]:>8.5f} | {pis[18]:>8.5f}")
+    print(f"4 | {pis[3]:>8.5f} | {pis[7]:>8.5f} | {pis[11]:>8.5f} | {pis[15]:>8.5f} | {pis[19]:>8.5f}")
+
+    plt.plot(a, difmedias, marker='o', linestyle='-', color='b')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.xlabel('N')
+    plt.ylabel('Diferença da média em relação a pi')
+    plt.title('Diferença entre a média estimada de pi e o valor real de pi')
+    plt.grid(True)
+    plt.show()
+
+monte_carloSemAni()
+            
