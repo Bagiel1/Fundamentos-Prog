@@ -1,54 +1,43 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import random
-from numba import jit
 
 
 def verificacao(matriz,m,z):
-        if matriz[m,z+1] == 1 or matriz[m,z-1] == 1 or matriz[m+1,z-1] == 1 or matriz[m+1,z] == 1 or matriz[m+1,z+1] == 1 or matriz[m-1,z-1] == 1 or matriz[m-1,z] == 1 or matriz[m-1,z+1] == 1: 
-            return False
-        return True
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            if (i != 0 or j != 0) and matriz[m + i, z + j] == 1:
+                return False
+    return True
+    
 
 
 def programa():
-    q=399
-    b= [0,1,2,3]
-    xs= [q//2]
-    ys= [q//2]
-    matriz= np.zeros(shape=(q+1,q+1), dtype=int)
-    matriz[q//2,q//2]= 1
-    
-    for i in range(1,q-1,3):
-       
-        for j in range(1,q-1,5):
+    tamanho=400
+    movimentos= [(1,0),(-1,0),(0,1),(0,-1)]
+    matriz= np.zeros((tamanho+1,tamanho+1), dtype=int)
+    matriz[tamanho//2,tamanho//2]= 1
+    p=10
 
-            if np.sqrt(i**2 + j**2) >= q/2.2:
-                xs_t= [i]
-                ys_t= [j]
-                c=0
+    for i in range(p):
+        for j in range(p):
+                
+                i_inicial= np.random.randint(1,tamanho-1)
+                j_inicial= np.random.randint(1,tamanho-1)
 
-                while xs_t[c] < q and xs_t[c] > 0 and ys_t[c] < q and ys_t[c] > 0:
+                if np.sqrt(i_inicial**2 + j_inicial**2) >= 180:
+                    xs_t, ys_t= [i_inicial],[j_inicial]
+                    c=0
+
+                while xs_t[c] < tamanho and xs_t[c] > 0 and ys_t[c] < tamanho and ys_t[c] > 0:
                     if verificacao(matriz,xs_t[c],ys_t[c]): 
 
-                        a= np.random.choice(b)
-                        if a==0:
-                            xs_t.append(xs_t[c]+1)
-                            ys_t.append(ys_t[c])
-                        elif a==1:
-                            xs_t.append(xs_t[c]-1)
-                            ys_t.append(ys_t[c])
-                        elif a==2:
-                            xs_t.append(xs_t[c])
-                            ys_t.append(ys_t[c]+1)
-                        elif a==3:
-                            xs_t.append(xs_t[c])
-                            ys_t.append(ys_t[c]-1)
+                        mx, my= random.choice(movimentos)
+                        xs_t.append(xs_t[c]+mx)
+                        ys_t.append(ys_t[c]+my)
+
                         c+=1
-                    
                     else:
-    
-                        xs.append(xs_t[-1])
-                        ys.append(ys_t[-1])
                         matriz[xs_t[-1], ys_t[-1]] = 1
                         break
 
@@ -56,9 +45,9 @@ def programa():
 
 
     fig, ax= plt.subplots()
-    ax.scatter(xs,ys)
-    ax.set_xlim(0,q)
-    ax.set_ylim(0,q)
+    ax.imshow(matriz, cmap='binary', origin='lower')
+    ax.set_xlim(0,tamanho)
+    ax.set_ylim(0,tamanho)
     plt.show()
 
 

@@ -44,7 +44,7 @@ def montCarl3d(n):
     return pi_estimado
 
 
-def montCarl3d_vet(n):
+def montCarl3d_vet(n, externa=False):
 
     start= time.time()
     pontos= np.random.uniform(-1,1, (n,3))
@@ -57,14 +57,40 @@ def montCarl3d_vet(n):
     pontosdentro= pontos[distancia<=1]
     pontosfora= pontos[distancia>1]
 
-    fig= plt.figure(figsize=(12,8))
-    ax= fig.add_subplot(111, projection='3d')
-    ax.scatter(pontosdentro[:,0],pontosdentro[:,1],pontosdentro[:,2], s=0.8)
-    ax.scatter(pontosfora[:,0],pontosfora[:,1],pontosfora[:,2], alpha= 0.3, s=0.5)
-    plt.show()
+    if externa == False:
+        fig= plt.figure(figsize=(12,8))
+        ax= fig.add_subplot(111, projection='3d')
+        ax.scatter(pontosdentro[:,0],pontosdentro[:,1],pontosdentro[:,2], s=0.8)
+        ax.scatter(pontosfora[:,0],pontosfora[:,1],pontosfora[:,2], alpha= 0.3, s=0.5)
+        plt.show()  
 
     return pi_estimado
 
 
+def monte_carloSemAni():
+    num=0
+    pis= []
+    difmedias= []
+    a= [10,10**2,10**3,10**4,10**5]
+    for i in a:
+        pis.append(montCarl3d_vet(i,externa=True))
+    for p in pis:
+        difmedias.append(abs(np.pi - p))
+
+    print(f"# | {'N=10':>8} | {'N=10^2':>8} | {'N=10^3':>8} | {'N=10^4':>8} | {'N=10^5':>8}")
+    print(f"  | {pis[0]:>8.5f} | {pis[1]:>8.5f} | {pis[2]:>8.5f} | {pis[3]:>8.5f} | {pis[4]:>8.5f}")
+
+    plt.plot(a, difmedias, marker='o', linestyle='-', color='b')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.xlabel('N')
+    plt.ylabel('Diferença da média em relação a pi')
+    plt.title('Diferença entre a média estimada de pi e o valor real de pi')
+    plt.grid(True)
+    plt.show()
+
+
+
 print(montCarl3d(100000))
 print(montCarl3d_vet(100000))
+monte_carloSemAni()
