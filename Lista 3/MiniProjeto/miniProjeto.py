@@ -18,7 +18,9 @@ def jacobi():
     iniciais = [0] * (N - 1)
     def aumentarExterna(i,New):
       iniciais[i] += New
-    aumentarExterna(39,-20)
+    aumentarExterna(39,2)
+    
+    
     def rho(x):
         return 1
 
@@ -39,16 +41,17 @@ def jacobi():
         pesos.append(peso)
 
     tol = 1e-5
-    maxit = 50000
+    maxit = 10000
     err = 10 * tol
     iter = 0
 
+    ynew = np.zeros(N-1)
     while iter < maxit and err > tol:
-        ynew = np.zeros(N-1)
+        
         for i in range(N-1):
             yi_prev = ysold[i-1] if i > 0 else 0
             yi_next = ysold[i+1] if i < N-2 else 0
-            ynew[i] = (yi_prev + yi_next)/2 - (massas[i]-iniciais[i])*Lo/2*Tensao
+            ynew[i] = 0.5*(yi_prev+yi_next+(Lo/Tensao)*(iniciais[i]-pesos[i]))
 
         err = np.linalg.norm(ynew - ysold)
         ysold = ynew.copy()
@@ -62,7 +65,6 @@ def jacobi():
     plt.ylabel("Deslocamento (y)")
     plt.grid(True)
     plt.show()
-
 
 
 
@@ -81,10 +83,10 @@ def jacobi2():
   iniciais = [0] * (N - 1)
   def aumentarExterna(i,New):
     iniciais[i] += New
-  
+  aumentarExterna(39,2)
 
   def rho(x):
-    return (1+np.exp(-100*(x-0.5)**2)/2)
+    return 1
 
   for i in range(N-1):
     if i == 0:
@@ -161,6 +163,7 @@ def gauss_Seidel():
 
   def aumentarExterna(i,New):
     tensaoex[i] += New
+  
 
   def rho(x):
     return 1
@@ -181,7 +184,7 @@ def gauss_Seidel():
     peso= -massa * g
     pesos.append(round(peso,2))
 
-  aumentarExterna(17,20)
+  aumentarExterna(39,2)
 
   B= np.zeros((N-1, N-1))
   for i in range(N-1):
@@ -224,3 +227,5 @@ def gauss_Seidel():
 
 
 jacobi()
+jacobi2()
+gauss_Seidel()
