@@ -18,7 +18,7 @@ def jacobi():
     iniciais = [0] * (N - 1)
     def aumentarExterna(i,New):
       iniciais[i] += New
-    aumentarExterna(17,20)
+    aumentarExterna(39,-20)
     def rho(x):
         return 1
 
@@ -38,7 +38,7 @@ def jacobi():
         peso = -massa * g
         pesos.append(peso)
 
-    tol = 1e-100
+    tol = 1e-5
     maxit = 50000
     err = 10 * tol
     iter = 0
@@ -224,5 +224,3 @@ def gauss_Seidel():
 
 
 jacobi()
-jacobi2()
-gauss_Seidel()
