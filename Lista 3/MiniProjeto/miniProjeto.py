@@ -18,7 +18,7 @@ def jacobi():
     iniciais = [0] * (N - 1)
     def aumentarExterna(i,New):
       iniciais[i] += New
-    aumentarExterna(39,2)
+    aumentarExterna(39,1)
     
     
     def rho(x):
@@ -37,7 +37,7 @@ def jacobi():
 
         massa, _ = quad(rho, a, b)
         massas.append(massa)
-        peso = -massa * g
+        peso = massa * g
         pesos.append(peso)
 
     tol = 1e-5
